@@ -8,6 +8,8 @@ const AlbumsValidator = require('./validator/albums')
 const SongsValidator = require('./validator/songs')
 
 const init = async () => {
+  const albumsService = new AlbumsService()
+  const songsService = new SongsService()
   const server = Hapi.server({
     port: process.env.PORT,
     host: process.env.HOST,
@@ -22,14 +24,14 @@ const init = async () => {
     {
       plugin: albums,
       options: {
-        service: AlbumsService,
+        service: albumsService,
         validator: AlbumsValidator
       }
     },
     {
       plugin: songs,
       options: {
-        service: SongsService,
+        service: songsService,
         validator: SongsValidator
       }
     }

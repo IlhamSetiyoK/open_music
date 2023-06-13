@@ -20,16 +20,52 @@ class SongsService {
 
     const result = await this._pool.query(query)
 
-    if (!result.rows.id[0]) {
+    if (!result.rows[0].id) {
       throw new InvariantError('Lagu gagal ditambahkan')
     }
 
     return result.rows[0].id
   }
 
-  async getSongs () {
+  async getSongs (requestParam) {
+    const { title, performer } = requestParam
+
+    // eslint-disable-next-line eqeqeq
+    if ((title) && (performer)) {
+      const query = {
+        text: 'SELECT id, title, performer FROM songs WHERE title ILIKE $1 AND performer ILIKE $2',
+        values: [`%${title}%`, `%${performer}%`]
+      }
+
+      const result = await this._pool.query(query)
+
+      return result.rows
+    }
+
+    if (title) {
+      const query = {
+        text: 'SELECT id, title, performer FROM songs WHERE title ILIKE $1',
+        values: [`%${title}%`]
+      }
+
+      const result = await this._pool.query(query)
+
+      return result.rows
+    }
+
+    if (performer) {
+      const query = {
+        text: 'SELECT id, title, performer FROM songs WHERE performer ILIKE $1',
+        values: [`%${performer}%`]
+      }
+
+      const result = await this._pool.query(query)
+
+      return result.rows
+    }
+
     const query = {
-      text: 'SELECT * FROM songs'
+      text: 'SELECT id, title, performer FROM songs'
     }
 
     const result = await this._pool.query(query)

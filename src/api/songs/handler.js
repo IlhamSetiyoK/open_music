@@ -27,14 +27,14 @@ class SongsHandler {
         albumId
       })
 
-      const response = h.request({
+      const response = h.response({
         status: 'success',
         message: 'Lagu berhasil ditambahkan',
         data: {
           songId
         }
       })
-      response.status(201)
+      response.code(201)
       return response
     } catch (error) {
       if (error instanceof ClientError) {
@@ -42,7 +42,7 @@ class SongsHandler {
           status: 'fail',
           message: error.message
         })
-        response.code(error.statusCode)
+        response.code(error.statuscode)
         return response
       }
 
@@ -56,15 +56,19 @@ class SongsHandler {
     }
   }
 
-  async getSongsHandler () {
-    const songs = await this._service.getSongs()
+  async getSongsHandler (request, h) {
+    const queryParam = request.query
 
-    return {
+    const songsData = await this._service.getSongs(queryParam)
+
+    const response = h.response({
       status: 'success',
       data: {
-        songs
+        songs: songsData
       }
-    }
+    })
+
+    return response
   }
 
   async getSongByIdHandler (request, h) {
@@ -85,7 +89,7 @@ class SongsHandler {
           status: 'fail',
           message: error.message
         })
-        response.code(error.statusCode)
+        response.code(error.statuscode)
         return response
       }
 
@@ -117,7 +121,7 @@ class SongsHandler {
           status: 'fail',
           message: error.message
         })
-        response.code(error.statusCode)
+        response.code(error.statuscode)
         return response
       }
 
@@ -147,7 +151,7 @@ class SongsHandler {
           status: 'fail',
           message: error.message
         })
-        response.code(error.statusCode)
+        response.code(error.statuscode)
         return response
       }
 

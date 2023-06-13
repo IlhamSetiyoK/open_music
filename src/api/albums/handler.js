@@ -19,7 +19,7 @@ class AlbumsHandler {
 
       const albumId = await this._service.addAlbum({ name, year })
 
-      const response = h.request({
+      const response = h.response({
         status: 'success',
         message: 'Album berhasil ditambahkan',
         data: {
@@ -34,7 +34,7 @@ class AlbumsHandler {
           status: 'fail',
           message: error.message
         })
-        response.code(error.statusCode)
+        response.code(error.statuscode)
         return response
       }
 
@@ -84,7 +84,7 @@ class AlbumsHandler {
         message: 'Maaf, terjadi kegagalan pada server kami'
       })
       response.code(500)
-      console.response(error)
+      console.error(error)
       return response
     }
   }

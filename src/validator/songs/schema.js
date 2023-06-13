@@ -5,8 +5,8 @@ const SongPayLoadSchema = Joi.object({
   year: Joi.number().min(1).required(),
   genre: Joi.string().required(),
   performer: Joi.string().required(),
-  duration: Joi.number().min(1).required(),
-  albumId: Joi.string().required()
+  duration: Joi.number().min(1),
+  albumId: Joi.string()
 })
 
 module.exports = { SongPayLoadSchema }
