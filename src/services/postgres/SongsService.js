@@ -81,7 +81,7 @@ class SongsService {
 
     const result = await this._pool.query(query)
 
-    if (!result.rows.length) {
+    if (!result.rowCount) {
       throw new NotFoundError('Lagu tidak ditemukan')
     }
 
@@ -98,7 +98,7 @@ class SongsService {
 
     const result = await this._pool.query(query)
 
-    if (!result.rows.length) {
+    if (!result.rowCount) {
       throw new NotFoundError('Gagal memperbarui lagu, id tidak ditemukan')
     }
   }
@@ -111,9 +111,20 @@ class SongsService {
 
     const result = await this._pool.query(query)
 
-    if (!result.rows.length) {
+    if (!result.rowCount) {
       throw new NotFoundError('Gagal menghapus lagu, id tidak ditemukan')
     }
+  }
+
+  async getSongsByAlbumId (id) {
+    const query = {
+      text: 'SELECT id, title, performer FROM songs WHERE album_id = $1',
+      values: [id]
+    }
+
+    const resultSong = await this._pool.query(query)
+
+    return resultSong.rows
   }
 }
 

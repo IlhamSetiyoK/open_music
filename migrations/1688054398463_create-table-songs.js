@@ -1,31 +1,6 @@
 /* eslint-disable camelcase */
 
-exports.shorthands = undefined
-
 exports.up = pgm => {
-  pgm.createTable('albums', {
-    id: {
-      type: 'VARCHAR(25)',
-      primaryKey: true
-    },
-    name: {
-      type: 'VARCHAR(50)',
-      notNull: true
-    },
-    year: {
-      type: 'INT',
-      notNull: true
-    },
-    created_at: {
-      type: 'TEXT',
-      notNull: true
-    },
-    updated_at: {
-      type: 'TEXT',
-      notNull: true
-    }
-  })
-
   pgm.createTable('songs', {
     id: {
       type: 'VARCHAR(25)',
@@ -54,7 +29,8 @@ exports.up = pgm => {
     album_id: {
       type: 'VARCHAR(25)',
       references: 'albums(id)',
-      onDelete: 'CASCADE'
+      onUpdate: 'CASCADE',
+      onDelete: 'RESTRICT'
     },
     created_at: {
       type: 'TEXT',
@@ -69,5 +45,4 @@ exports.up = pgm => {
 
 exports.down = pgm => {
   pgm.dropTable('songs')
-  pgm.dropTable('albums')
 }
