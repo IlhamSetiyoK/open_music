@@ -8,11 +8,11 @@ class PlaylistsService {
     this._pool = new Pool()
   }
 
-  async addPlaylist (playlistName, userId) {
+  async addPlaylist ({ playlistName, owner }) {
     const id = `playlist-${nanoid(16)}`
     const query = {
       text: 'INSERT INTO playlists VALUES($1, $2, $3) RETURNING id',
-      values: [id, playlistName, userId]
+      values: [id, playlistName, owner]
     }
 
     const result = await this._pool.query(query)
@@ -26,7 +26,7 @@ class PlaylistsService {
 
   async getPlaylists (userId) {
     const query = {
-      text: 'SELECT * FROM playlists WHERE user_id = $1',
+      text: 'SELECT a.id, a.name, b.username FROM playlists a JOIN users b ON a.owner = b.id WHERE a.owner = $1',
       values: [userId]
     }
 
