@@ -1,5 +1,6 @@
 const InvariantError = require('../../exceptions/InvariantError')
 const AuthenticationError = require('../../exceptions/AuthenticationError')
+const NotFoundError = require('../../exceptions/NotFoundError')
 
 const { nanoid } = require('nanoid')
 const bcrypt = require('bcrypt')
@@ -20,6 +21,19 @@ class UsersService {
 
     if (result.rowCount) {
       throw new InvariantError('Username sudah digunakan')
+    }
+  }
+
+  async verifyUserById (id) {
+    const query = {
+      text: 'SELECT * FROM users WHERE id = $1',
+      values: [id]
+    }
+
+    const result = await this._pool.query(query)
+
+    if (!result.rowCount) {
+      throw new NotFoundError('User tidak ditemukan')
     }
   }
 

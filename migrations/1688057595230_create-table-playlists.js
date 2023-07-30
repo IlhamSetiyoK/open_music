@@ -15,7 +15,7 @@ exports.up = pgm => {
       notNull: true,
       references: 'users(id)',
       onUpdate: 'CASCADE',
-      onDelete: 'RESTRICT'
+      onDelete: 'CASCADE'
     }
   })
 }

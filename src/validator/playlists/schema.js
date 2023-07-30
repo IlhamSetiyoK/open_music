@@ -4,4 +4,8 @@ const PlaylistPayLoadSchema = Joi.object({
   name: Joi.string().required()
 })
 
-module.exports = { PlaylistPayLoadSchema }
+const PlaylistSongPayLoadSchema = Joi.object({
+  songId: Joi.string().required()
+})
+
+module.exports = { PlaylistPayLoadSchema, PlaylistSongPayLoadSchema }
