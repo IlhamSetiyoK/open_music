@@ -101,7 +101,7 @@ class PlaylistsService {
         throw error
       }
     }
-  }
+    }
 
   async addPlaylistSong (playlistId, songId, userId) {
     await this._songsService.getSongById(songId)

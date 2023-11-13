@@ -39,7 +39,7 @@ class AlbumsService {
 
   async getAlbumById (id) {
     const albumData = {
-      text: 'SELECT id, name, year FROM albums WHERE id = $1',
+      text: 'SELECT id, name, year, cover FROM albums WHERE id = $1',
       values: [id]
     }
 
@@ -84,6 +84,19 @@ class AlbumsService {
 
     if (!result.rowCount) {
       throw new NotFoundError('Gagal menghapus album, Id tidak ditemukan')
+    }
+  }
+
+  async addAlbumCover (id, cover) {
+    const query = {
+      text: 'UPDATE albums SET cover = $1 WHERE id = $2 RETURNING id',
+      values: [cover, id]
+    }
+
+    const result = await this._pool.query(query)
+
+    if (!result.rowCount) {
+      throw new NotFoundError('Gagal mengubah album, Id tidak ditemukan')
     }
   }
 }
