@@ -2,6 +2,7 @@ require('dotenv').config()
 const Hapi = require('@hapi/hapi')
 const Jwt = require('@hapi/jwt')
 const path = require('path')
+const inert = require('@hapi/inert')
 
 const albums = require('./api/albums')
 const AlbumsService = require('./services/postgres/AlbumsService')
@@ -72,7 +73,7 @@ const init = async () => {
   const playlistsService = new PlaylistsService(songsService, collaborationsService, activitiesService)
 
   // Uploads Service
-  const uploadsService = new UploadsService(path.resolve(__dirname, 'api/uploads/file/images'))
+  const uploadsService = new UploadsService(path.resolve(__dirname, 'api/uploads/file/cover'))
 
   // Album Likes Service
   const albumLikesService = new AlbumLikesService(cacheService, albumsService)
@@ -90,6 +91,9 @@ const init = async () => {
   await server.register([
     {
       plugin: Jwt
+    },
+    {
+      plugin: inert
     }
   ])
 

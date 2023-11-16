@@ -9,9 +9,11 @@ class StorageService {
     }
   }
 
-  writeFile (file, meta, idAlbum) {
-    const filename = `${idAlbum}_${meta.filename}`
+  writeFile (file, meta) {
+    const filename = +new Date() + meta.filename
     const path = `${this._folder}/${filename}`
+    console.log('ini nama file ' + filename)
+    // console.log('ini lokasi file ' + path)
 
     const fileStream = fs.createWriteStream(path)
 
